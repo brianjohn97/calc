@@ -5,6 +5,7 @@ import java.lang.Math;
 
 public class calculator {
     public static void main(String[] args) {
+<<<<<<< HEAD
         
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the Mathemcatical expression here: ");
@@ -61,5 +62,10 @@ public class calculator {
             return;
         }
         System.out.println("Final answer: " + stack.pop());
+=======
+        System.out.println("hello world");
+
+        System.out.println("test");
+>>>>>>> c7f88964da72fa5e11fcb79234f142c7e8c5f618
     }
 }
