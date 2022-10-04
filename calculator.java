@@ -5,14 +5,12 @@ import java.lang.Math;
 
 public class calculator {
     public static void main(String[] args) {
-<<<<<<< HEAD
         
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the Mathemcatical expression here: ");
-        String num = sc.nextLine();
-
-        
-        
+        String num = "5 c 5 s +"; 
+               
+        evalRPN(num);
     }
     //got evalRPN from Rosetta Code website
     //https://rosettacode.org/wiki/Parsing/RPN_calculator_algorithm#Java_2
@@ -46,6 +44,20 @@ public class calculator {
                 double secondOperand = stack.pop();
                 double firstOperand = stack.pop();
                 stack.push(Math.pow(firstOperand, secondOperand));
+            }else if (token.equals("c")){
+                double operand = stack.pop();
+                operand = Math.toRadians(operand);
+                stack.push(Math.cos(operand));
+
+            }else if (token.equals("s")){
+                double operand = stack.pop();
+                operand = Math.toRadians(operand);
+                stack.push(Math.sin(operand));
+            }else if (token.equals("t")){
+                double operand = stack.pop();
+                operand = Math.toRadians(operand);
+                stack.push(Math.tan(operand));
+            //}
             } else {
                 System.out.print("Push\t\t");
                 try {
@@ -62,10 +74,5 @@ public class calculator {
             return;
         }
         System.out.println("Final answer: " + stack.pop());
-=======
-        System.out.println("hello world");
-
-        System.out.println("test");
->>>>>>> c7f88964da72fa5e11fcb79234f142c7e8c5f618
     }
 }
