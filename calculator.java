@@ -62,10 +62,5 @@ public class calculator {
             return;
         }
         System.out.println("Final answer: " + stack.pop());
-=======
-        System.out.println("hello world");
-
-        System.out.println("test");
->>>>>>> c7f88964da72fa5e11fcb79234f142c7e8c5f618
     }
 }
