@@ -9,9 +9,11 @@ public class calculator {
         
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the Mathemcatical expression here: ");
-        String num = "5.5 10 + "; 
-               
-        evalRPN(num);
+        String num = "-5.78 + ( 4 - 2.23 ) + sin 0 * cos 1 / ( 1 + tan ( 2 * ln ( - 3 + 2 * ( 1.23 + 99 .111 ) ) ) )";
+        String num2 = "cos 5 + m 10" ;
+        String num3  = "n 96 + l 96";
+
+        evalRPN(num3);               
     }
 
     //got infixToPostFix from rosettacode.org website
@@ -20,14 +22,15 @@ public class calculator {
         /* To find out the precedence, we take the index of the
            token in the ops string and divide by 2 (rounding down). 
            This will give us: 0, 0, 1, 1, 2 */
-        final String ops = "-+/*^";
+        final String ops = "-+/*^ctsmoln";
 
         StringBuilder sb = new StringBuilder();
         Stack<Integer> s = new Stack<>();
 
         for (String token : infix.split("\\s")) {
-            if (token.isEmpty())
+            if (token.isEmpty()){
                 continue;
+            }
             char c = token.charAt(0);
             int idx = ops.indexOf(c);
 
@@ -47,10 +50,10 @@ public class calculator {
                     s.push(idx);
                 }
             } 
-            else if (c == '(') {
+            else if (c == '(' || c == '{') {
                 s.push(-2); // -2 stands for '('
             } 
-            else if (c == ')') {
+            else if (c == ')' || c == '}') {
                 // until '(' on stack, pop operators.
                 while (s.peek() != -2)
                     sb.append(ops.charAt(s.pop())).append(' ');
@@ -60,14 +63,20 @@ public class calculator {
                 sb.append(token).append(' ');
             }
         }
-        while (!s.isEmpty())
-            sb.append(ops.charAt(s.pop())).append(' ');
+        while (!s.isEmpty()){
+            if (s.peek() != -2){
+                sb.append(ops.charAt(s.pop())).append(' ');
+                continue;
+            }
+            return "Incorrect amount of Parenthesis, please check your paranthesis and try again.";
+        }
         return sb.toString();
     }
 
     //got evalRPN from Rosetta Code website
     //https://rosettacode.org/wiki/Parsing/RPN_calculator_algorithm#Java_2
     private static void evalRPN(String expr){
+        expr = infixToPostfix(expr);
         LinkedList<Double> stack = new LinkedList<Double>();
         System.out.println("Input\tOperation\tStack after");
         for (String token : expr.split("\\s")){
@@ -114,6 +123,16 @@ public class calculator {
                 double operand = stack.pop();
                 operand = operand * -1;
                 stack.push(operand);
+            } else if (token.equals("o")){
+                double operand = stack.pop();
+                operand = Math.toRadians(operand);
+                stack.push(1 / Math.tan(operand));
+            }else if (token.equals("n")){
+                double operand = stack.pop();
+                stack.push(Math.log(operand));
+            }else if (token.equals("l")){
+                double operand = stack.pop();
+                stack.push(Math.log10(operand));
             } else {
                 System.out.print("Push\t\t");
                 try {
