@@ -7,13 +7,20 @@ import java.lang.Math;
 public class calculator {
     public static void main(String[] args) {
         
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the Mathemcatical expression here: ");
-        String num = "-5.78 + ( 4 - 2.23 ) + sin 0 * cos 1 / ( 1 + tan ( 2 * ln ( - 3 + 2 * ( 1.23 + 99 .111 ) ) ) )";
-        String num2 = "cos 5 + m 10" ;
-        String num3  = "n 96 + l 96";
+        //loop to continually ask the user for an expression then check if they want to stop and evaluate that expresions
+        //and return the final answer
+        while (true) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter the Mathemcatical expression here(stop to quit): ");
+            String num = sc.nextLine();
 
-        evalRPN(num3);               
+            if(num.equals("stop")){
+                System.exit(0);
+            }
+
+            evalRPN(num);
+            System.out.println(" ");
+        }               
     }
 
     //got infixToPostFix from rosettacode.org website
@@ -63,12 +70,15 @@ public class calculator {
                 sb.append(token).append(' ');
             }
         }
+        //pushes the rest of the operators onto the stack
+        //check is for the same amount of parenthesis
         while (!s.isEmpty()){
             if (s.peek() != -2){
                 sb.append(ops.charAt(s.pop())).append(' ');
                 continue;
             }
-            return "Incorrect amount of Parenthesis, please check your paranthesis and try again.";
+            System.out.println("Incorrect amount of Parenthesis, please check your paranthesis and try again.");
+            System.exit(0);
         }
         return sb.toString();
     }
@@ -76,9 +86,14 @@ public class calculator {
     //got evalRPN from Rosetta Code website
     //https://rosettacode.org/wiki/Parsing/RPN_calculator_algorithm#Java_2
     private static void evalRPN(String expr){
+
+        //get the expression from the user converted to post fix notation
         expr = infixToPostfix(expr);
         LinkedList<Double> stack = new LinkedList<Double>();
         System.out.println("Input\tOperation\tStack after");
+
+        //parses through the expression looking for the operators
+        //then performing the corresponding action with
         for (String token : expr.split("\\s")){
             System.out.print(token + "\t");
             if (token.equals("*")) {
@@ -110,7 +125,6 @@ public class calculator {
                 double operand = stack.pop();
                 operand = Math.toRadians(operand);
                 stack.push(Math.cos(operand));
-
             }else if (token.equals("s")){
                 double operand = stack.pop();
                 operand = Math.toRadians(operand);
