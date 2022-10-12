@@ -80,7 +80,7 @@ public class calculator {
                 sb.append(ops.charAt(s.pop())).append(' ');
                 continue;
             }
-            return ("Incorrect amount of Parenthesis, please check your paranthesis and try again.");
+            return "";
         }
         return sb.toString();
     }
