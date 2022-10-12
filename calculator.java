@@ -1,7 +1,10 @@
-//package calc;
+package calc;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Stack;
+
+import javax.xml.transform.Source;
+
 import java.lang.Math;
 
 public class calculator {
@@ -57,10 +60,10 @@ public class calculator {
                     s.push(idx);
                 }
             } 
-            else if (c == '(' || c == '{') {
+            else if (c == '(' || c == '{' || c == '[') {
                 s.push(-2); // -2 stands for '('
             } 
-            else if (c == ')' || c == '}') {
+            else if (c == ')' || c == '}' || c == ']') {
                 // until '(' on stack, pop operators.
                 while (s.peek() != -2)
                     sb.append(ops.charAt(s.pop())).append(' ');
@@ -77,8 +80,7 @@ public class calculator {
                 sb.append(ops.charAt(s.pop())).append(' ');
                 continue;
             }
-            System.out.println("Incorrect amount of Parenthesis, please check your paranthesis and try again.");
-            System.exit(0);
+            return ("Incorrect amount of Parenthesis, please check your paranthesis and try again.");
         }
         return sb.toString();
     }
@@ -105,6 +107,12 @@ public class calculator {
                 System.out.print("Operate\t\t");
                 double secondOperand = stack.pop();
                 double firstOperand = stack.pop();
+                if (secondOperand == 0){
+                    System.out.println(" ");
+                    System.out.println(" ");
+                    System.out.println("CANNOT DIVIDE BY ZERO");
+                    return;
+                }
                 stack.push(firstOperand / secondOperand);
             } else if (token.equals("-")) {
                 System.out.print("Operate\t\t");
@@ -120,7 +128,9 @@ public class calculator {
                 System.out.print("Operate\t\t");
                 double secondOperand = stack.pop();
                 double firstOperand = stack.pop();
-                stack.push(Math.pow(firstOperand, secondOperand));
+                long ans = (long) Math.pow(secondOperand, firstOperand);
+                double as = (double) ans;
+                stack.push(as);
             }else if (token.equals("c")){
                 double operand = stack.pop();
                 operand = Math.toRadians(operand);
@@ -142,9 +152,21 @@ public class calculator {
                 operand = Math.toRadians(operand);
                 stack.push(1 / Math.tan(operand));
             }else if (token.equals("n")){
+                if (stack.size() == 0){
+                    System.out.println(" ");
+                    System.out.println(" ");
+                    System.out.println("ERROR: CANNOT TAKE LOG OF A NEGATIVE NUMBER.");
+                    return;
+                }
                 double operand = stack.pop();
                 stack.push(Math.log(operand));
             }else if (token.equals("l")){
+                if (stack.size() == 0){
+                    System.out.println(" ");
+                    System.out.println(" ");
+                    System.out.println("ERROR: CANNOT TAKE LOG OF A NEGATIVE NUMBER.");
+                    return;
+                }
                 double operand = stack.pop();
                 stack.push(Math.log10(operand));
             } else {
